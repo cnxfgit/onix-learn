@@ -22,7 +22,7 @@ $(BUILD)/boot/%.bin: $(SRC)/boot/%.asm
 
 $(BUILD)/kernel/%.o: $(SRC)/kernel/%.asm
 	$(shell mkdir -p $(dir $@))
-	nasm -f elf32 $(DEBUG) $< -o $@
+	nasm -gdwarf -f elf32 $(DEBUG) $< -o $@
 
 $(BUILD)/kernel/%.o: $(SRC)/kernel/%.c
 	$(shell mkdir -p $(dir $@))
@@ -60,3 +60,25 @@ clean:
 .PHONY: bochs
 bochs: $(BUILD)/master.img
 	bochs -q
+
+.PHONY: qemu
+qemu: $(BUILD)/master.img
+	qemu-system-i386 \
+	-m 32M \
+	-boot c \
+	-hda $<
+
+.PHONY: qemug
+qemug: $(BUILD)/master.img
+	qemu-system-i386 \
+	-s -S \
+	-m 32M \
+	-boot c \
+	-hda $<
+
+
+$(BUILD)/master.vmdk: $(BUILD)/master.img
+	qemu-img convert -O vmdk $< $@
+
+.PHONY: vmdk
+vmdk: $(BUILD)/master.vmdk
