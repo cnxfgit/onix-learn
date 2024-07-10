@@ -136,7 +136,6 @@ void console_write(char* buf, u32 count) {
     char ch;
     while (count--) {
         ch = *buf++;
-        char* ptr = (char*)pos;
         switch (ch) {
             case ASCII_NUL:
                 break;
@@ -172,12 +171,11 @@ void console_write(char* buf, u32 count) {
                     command_lf();
                 }
 
-                *ptr = ch;
-                ptr++;
-                *ptr = attr;
-                ptr++;
+                *((char*)pos) = ch;
+                pos++;
+                *((char*)pos) = attr;
+                pos++;
 
-                pos += 2;
                 x++;
                 break;
         }
