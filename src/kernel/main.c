@@ -6,10 +6,12 @@
 #include <onix/stdarg.h>
 #include <onix/string.h>
 #include <onix/types.h>
+#include <onix/debug.h>
 
 void kernel_init() {
     console_init();
 
-    assert(5 > 3);
-    panic("....");
+    BMB;
+
+    DEBUGK("debug onix!!!\n");
 }
