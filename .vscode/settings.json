@@ -2,6 +2,7 @@
     "files.associations": {
         "types.h": "c",
         "string.h": "c",
-        "onix.h": "c"
+        "onix.h": "c",
+        "stdarg.h": "c"
     }
 }
